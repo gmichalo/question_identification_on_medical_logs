@@ -1,0 +1,13 @@
+{
+    "num_iters": 30,
+    "seed":36275,
+    "optim": "adam",
+    "learning_rate": {
+        "sampling strategy": "uniform",
+        "bounds": [1e-6, 1e-1]
+    },
+    "batch_size": {
+        "sampling strategy": "choice",
+        "choice": [32, 64]
+    }
+}

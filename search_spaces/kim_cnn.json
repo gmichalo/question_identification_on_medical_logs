@@ -1,0 +1,35 @@
+{
+    "num_iters": 30,
+    "optim": "adam",
+    "seed":36275,
+    "learning_rate": {
+        "sampling strategy": "uniform",
+        "bounds": [1e-6, 1e-1]
+    },
+    "dropout": {
+        "sampling strategy":  "uniform",
+        "bounds": [0, 0.5]
+    },
+     "training_embedding": {
+        "sampling strategy": "choice",
+        "choice": [true]
+    },
+    "use_embedding": {
+        "sampling strategy": "choice",
+        "choice": [true]
+    },
+    "batch_size": {
+        "sampling strategy": "choice",
+        "choice": [32, 64]
+    },
+
+    "filter_sizes": {
+        "sampling strategy": "choice",
+        "choice": [[3,4,5], [2,4,8], [2,3,4]]
+    },
+    "feature_maps": {
+        "sampling strategy": "integer", 
+        "bounds": [100, 200]
+    }
+
+}
