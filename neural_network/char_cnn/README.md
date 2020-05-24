@@ -1,4 +1,4 @@
-# FastText
+# CHAR_CNN
 
 This is an implementation for Character-level Convolutional Network [CHAR_CNN](https://arxiv.org/pdf/1509.01626.pdf)
 
