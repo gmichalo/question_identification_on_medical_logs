@@ -1,10 +1,6 @@
 import numpy as np
-from gensim.models import KeyedVectors
 import gensim
-from gensim.models import Word2Vec
-import torch.nn as nn
 import math
-
 import torch
 
 

@@ -416,5 +416,5 @@ args = parser.parse_args()
 for i in args.methods:
     extractor = Questions(args.file_name, 'questions_methods/questions_' + str(i) + '.csv',
                           '../../dataset_input/questions.csv')
-    # extractor.pipeline(i)
+    extractor.pipeline(i)
 extractor.merge('questions_methods/')

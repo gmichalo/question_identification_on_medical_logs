@@ -49,7 +49,7 @@ nltk.download()
 ### Dowload pre-trained embeddings
 1. Google pre-trained embeddings
 
-In order to use pre-trained embeddings for the word embeddings (or the semantic embeddings), you need to dowload GoogleNews-vectors-negative300.bin.gz into the folder *dataset_input/google_embedding*
+In order to use pre-trained embeddings for the word embeddings (or the semantic embeddings), you need to dowload GoogleNews-vectors-negative300.bin.gz into the folder *embedding_input/google_embedding*
 
 An easy way for dowloading is by:
 ```
@@ -59,7 +59,7 @@ wget -c "https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative3
 
 Unfortunately, we cannot provide the embeddings of the MIMIC III dataset as training course is mandatory in order to access the particular dataset but the code can be still executed by only using the Google embeddings.
 
-However, we provide the code for the creation of the mimic embeeding in the [file](https://github.com/gmichalo/question_identificaton/blob/master/dataset_input/mimic_embedding/mimic.py) which will require the NOTEEVENTS.csv from the MIMIC III dataset
+However, we provide the code for the creation of the mimic embeeding in the [file](https://github.com/gmichalo/question_identificaton/blob/master/embedding_input/mimic_embedding/mimic.py) which will require the NOTEEVENTS.csv from the MIMIC III dataset
 
 ### Extracting questions and  creation of   features of the deep neural network models
 
@@ -77,7 +77,7 @@ python3 param_json.py --model_name "model_name"  -fn "results_file_name" - -jf "
 The end results will be saved in *dataset_output/hyperpameters/* and it will create three files:
 * results_file_name.csv : contains all the final F1 scores for each search trial
 * results_file_name.json : contains the best hyper-parameters for the model
-* results_file_name_name.csv : number of parameters of the model
+* results_file_name_param.csv : number of parameters of the model
 
 ### Running model
 In order to run any model firstly you need to add the file that contains the sentences in question in *dataset_input/*.
@@ -99,37 +99,20 @@ python main_iterations.py -help
  
 
 usage: main_iterations.py [-h] [-modn MODEL_NAME] [-fn DATA_FINAL_NAME]
-                          [-dn DATA_NAME] [-df DATA_FILE] [-med MEDICAL_DATA]
-                          [-wcl WEIGHT_CLASS] [-e EMBD_FILE]
-                          [-e_mimic EMBD_FILE_MIMIC] [-e_flag EMBEDDING_FLAG]
-                          [-oh ONE_HOT_POS] [-ohm ONE_HOT_MEDICAL]
-                          [-ohseq ONE_HOT_WORD]
-                          [-em_flag_med EMBEDDING_FLAG_MEDICAL]
-                          [-cn CLASS_NUMBER] [-f FEATURE_NUMBER]
-                          [-cf CLUSTER_NUMBER] [-tr TRAINING_RATIO]
-                          [-tv TEST_VAL_RATIO] [-l EMBEDDING_SIZE]
-                          [-b BATCH_SIZE] [-n NUM_ITERS] [-lr LEARNING_RATE]
+                          [-dn DATA_NAME] [-ner NER] [-df DATA_FILE]
+                          [-dft DATA_FILE_TEST] [-dd DATA_FILE_DEV]
+                          [-e EMBD_FILE] [-e_mimic EMBD_FILE_MIMIC]
+                          [-e_flag EMBEDDING_FLAG] [-cn CLASS_NUMBER]
+                          [-tr TRAINING_RATIO] [-tv TEST_VAL_RATIO]
+                          [-l EMBEDDING_SIZE] [-opt OPTIM] [-b BATCH_SIZE]
+                          [-n NUM_ITERS] [-lr LEARNING_RATE]
                           [-wd WEIGHT_DECAY] [-usemb USE_EMBEDDING]
-                          [-upos UPOS] [-uad UAD] [-umed UMED]
-                          [-qk QUESTION_KNOWLEDGE] [-tr_e TRAINING_EMBEDDING]
-                          [-tr_e_pos TRAINING_EMBEDDING_POS]
-                          [-tr_e_med TRAINING_EMBEDDING_MED]
-                          [-wordnet WORDNET] [-opt OPTIM] [-pr PRINTING_LOSS]
-                          [-sp SAVE_PATH] [-tf THIRD_FLAG]
-                          [-multi KMULTICHANNEL] [-dr DROPOUT]
-                          [-dre DROPOUT_EMBEDDING] [-inter INTERMIDIATE]
-                          [-fm FEATURE_MAPS]
+                          [-tr_e TRAINING_EMBEDDING] [-sp SAVE_PATH]
+                          [-pr PRINTING_LOSS] [-multi KMULTICHANNEL]
+                          [-dr DROPOUT] [-fm FEATURE_MAPS]
                           [-fs [FILTER_SIZES [FILTER_SIZES ...]]]
-                          [-dyn DYNAMIC_POOL] [-pk POOL_SIZE] [-z HIDDEN_SIZE]
-                          [-bi BIDIRECTIONAL] [-qm QUESTION_NAME]
+                          [-z HIDDEN_SIZE] [-qm QUESTION_NAME]
                           [-qml QUESTION_NAME_LABEL]
-                          [-qmf QUESTION_NAME_FEATURES]
-                          [-qmp QUESTION_NAME_POS]
-                          [-qmpm QUESTION_NAME_POS_MEDICAL]
-                          [-qmn QUESTION_NAME_NEW]
-                          [-qmnf QUESTION_NAME_NEW_FLAG]
-                          [-qmnc QUESTION_NAME_CLUSTER]
-                          [-wordnet_name WORDNET_NAME]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -139,14 +122,13 @@ optional arguments:
                         result name.
   -dn DATA_NAME, --data_name DATA_NAME
                         Dataset name.
+  -ner NER, --ner NER   whether we use ner or re task
   -df DATA_FILE, --data_file DATA_FILE
                         Path to dataset.
-  -med MEDICAL_DATA, --medical_data MEDICAL_DATA
-                        0 not use semantic knowledge, 1 use concept in word
-                        vector, 2 additional channel for semantic concept
-  -wcl WEIGHT_CLASS, --weight_class WEIGHT_CLASS
-                        0 1/class_size, 1 max_size/class_size, 2 additional
-                        use sklearn n_samples / (n_classes * np.bincount(y))
+  -dft DATA_FILE_TEST, --data_file_test DATA_FILE_TEST
+                        Path to dataset test set.
+  -dd DATA_FILE_DEV, --data_file_dev DATA_FILE_DEV
+                        Path to dataset.
   -e EMBD_FILE, --embd_file EMBD_FILE
                         Path to Embedding File of google.
   -e_mimic EMBD_FILE_MIMIC, --embd_file_mimic EMBD_FILE_MIMIC
@@ -154,27 +136,16 @@ optional arguments:
   -e_flag EMBEDDING_FLAG, --embedding_flag EMBEDDING_FLAG
                         1 use google embedding, 2 use mimic dataset, 3 random
                         start
-  -oh ONE_HOT_POS, --one_hot_pos ONE_HOT_POS
-                        flag if pos tag is one hot vector
-  -ohm ONE_HOT_MEDICAL, --one_hot_medical ONE_HOT_MEDICAL
-                        flag if semantic concepts are one hot vector
-  -ohseq ONE_HOT_WORD, --one_hot_word ONE_HOT_WORD
-                        flag if words are presented as one-hot
-  -em_flag_med EMBEDDING_FLAG_MEDICAL, --embedding_flag_medical EMBEDDING_FLAG_MEDICAL
-                        1 use google embedding, 2 use mimic dataset for
-                        semantic, 3 random start
   -cn CLASS_NUMBER, --class_number CLASS_NUMBER
                         Number of class
-  -f FEATURE_NUMBER, --feature_number FEATURE_NUMBER
-                        Number of statistical features
-  -cf CLUSTER_NUMBER, --cluster_number CLUSTER_NUMBER
-                        Number of question extraction method number
   -tr TRAINING_RATIO, --training_ratio TRAINING_RATIO
                         Ratio of training set.
   -tv TEST_VAL_RATIO, --test_val_ratio TEST_VAL_RATIO
                         Ratio of testing/validation set.
   -l EMBEDDING_SIZE, --embedding_size EMBEDDING_SIZE
                         embedding size
+  -opt OPTIM, --optim OPTIM
+                        optimization
   -b BATCH_SIZE, --batch_size BATCH_SIZE
                         Batch Size.
   -n NUM_ITERS, --num_iters NUM_ITERS
@@ -185,72 +156,23 @@ optional arguments:
                         weight decay
   -usemb USE_EMBEDDING, --use_embedding USE_EMBEDDING
                         if we use pre-training embedding
-  -upos UPOS, --upos UPOS
-                        whether we are using pos_tags
-  -uad UAD, --uad UAD   whether we are using statistical features
-  -umed UMED, --umed UMED
-                        whether we are using semantic features
-  -qk QUESTION_KNOWLEDGE, --question_knowledge QUESTION_KNOWLEDGE
-                        whether use the knowledge from which question methods
-                        the sentence come
   -tr_e TRAINING_EMBEDDING, --training_embedding TRAINING_EMBEDDING
                         If we will continue the training of embedding.
-  -tr_e_pos TRAINING_EMBEDDING_POS, --training_embedding_pos TRAINING_EMBEDDING_POS
-                        If we will continue the training of pos-tag embedding.
-  -tr_e_med TRAINING_EMBEDDING_MED, --training_embedding_med TRAINING_EMBEDDING_MED
-                        If we will continue the training of semantic
-                        embedding.
-  -wordnet WORDNET, --wordnet WORDNET
-                        whether we are using wordnet for semantic features
-  -opt OPTIM, --optim OPTIM
-                        optimization
-  -pr PRINTING_LOSS, --printing_loss PRINTING_LOSS
-                        whether we print the training loss in each epoch
   -sp SAVE_PATH, --save_path SAVE_PATH
                         path where the model will be saved
-  -tf THIRD_FLAG, --third_flag THIRD_FLAG
-                        whether we use 2d or 3d tensor
+  -pr PRINTING_LOSS, --printing_loss PRINTING_LOSS
+                        whether we print the training loss in each epoch
   -multi KMULTICHANNEL, --kmultichannel KMULTICHANNEL
                         whether we use mutlichannel for Kim
   -dr DROPOUT, --dropout DROPOUT
                         dropout for cnn_text
-  -dre DROPOUT_EMBEDDING, --dropout_embedding DROPOUT_EMBEDDING
-                        dropout embedding for cnn_text
-  -inter INTERMIDIATE, --intermidiate INTERMIDIATE
-                        size of the intermidiate layer for cnn_text
   -fm FEATURE_MAPS, --feature_maps FEATURE_MAPS
                         size of feature map for each filter
   -fs [FILTER_SIZES [FILTER_SIZES ...]], --filter_sizes [FILTER_SIZES [FILTER_SIZES ...]]
                         size for each filter
-  -dyn DYNAMIC_POOL, --dynamic_pool DYNAMIC_POOL
-                        size of dynamic pooling map
-  -pk POOL_SIZE, --pool_size POOL_SIZE
-                        size for max pool
   -z HIDDEN_SIZE, --hidden_size HIDDEN_SIZE
                         Number of Units in LSTM layer.
-  -bi BIDIRECTIONAL, --bidirectional BIDIRECTIONAL
-                        if it is bidirectional or not.
   -qm QUESTION_NAME, --question_name QUESTION_NAME
                         name of the column that contain questions
   -qml QUESTION_NAME_LABEL, --question_name_label QUESTION_NAME_LABEL
-                        name of the column that contain label of the sentences
-  -qmf QUESTION_NAME_FEATURES, --question_name_features QUESTION_NAME_FEATURES
-                        name of the columns that contain the list of the
-                        statistical features
-  -qmp QUESTION_NAME_POS, --question_name_pos QUESTION_NAME_POS
-                        name of the column that contain pos tag
-  -qmpm QUESTION_NAME_POS_MEDICAL, --question_name_pos_medical QUESTION_NAME_POS_MEDICAL
-                        name of the column that contain pos tag of new
-                        sentences using semantic concepts
-  -qmn QUESTION_NAME_NEW, --question_name_new QUESTION_NAME_NEW
-                        name of the column that contain new question using
-                        semantic concepts
-  -qmnf QUESTION_NAME_NEW_FLAG, --question_name_new_flag QUESTION_NAME_NEW_FLAG
-                        name of the column that contain flags of the semantic
-                        concepts
-  -qmnc QUESTION_NAME_CLUSTER, --question_name_cluster QUESTION_NAME_CLUSTER
-                        name of the column that contain pre-determine
-                        information from which question method the sentence
-                        come from
-  -wordnet_name WORDNET_NAME, --wordnet_name WORDNET_NAME
 ```

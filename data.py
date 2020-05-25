@@ -38,7 +38,7 @@ class Read_Data(object):
         self.wordnet = wordnet
 
         self.questions_name = column_names.question_name
-        self.score_col = column_names.question_name_label  # 0,1,2
+        self.score_col = column_names.question_name_label
         self.features_cols = column_names.question_name_features
         self.pos_tag_old = column_names.question_name_pos
         self.pos_tag_new = column_names.question_name_pos_medical  # pos_tag_medical

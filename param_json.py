@@ -18,16 +18,14 @@ from neural_network.FastText.model import FastText
 from neural_network.seq_cnn.model import Seq_CNN
 from neural_network.char_cnn.model import CHARCNN
 
-import warnings
+
 import time
 import json
 
-# warnings.filterwarnings("error")
+
 
 use_cuda = torch.cuda.is_available()
-import math
-from tqdm import tqdm
-import csv
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -199,6 +197,7 @@ if __name__ == "__main__":
  
         seed_index = 0
         start = time.time()
+        args.num_iters = 2
 
         seed_index = seed_index + 1
         print('Reading Data. with seeds: ' + str(seed))
@@ -261,10 +260,6 @@ if __name__ == "__main__":
             model = CHARCNN(args, args.class_number, data.max_sentence_lenght, input_channel=len(data.alphabet),
                             output_channel=args.feature_maps,
                             dropout=args.dropout, linear_size=args.intermidiate)
-
-        if use_cuda: model = model.cuda()
-
-        if use_cuda: model = model.cuda()
 
         if use_cuda: model = model.cuda()
 

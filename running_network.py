@@ -1,4 +1,3 @@
-import random
 
 import torch
 import torch.nn.utils.rnn as rnn
@@ -178,7 +177,6 @@ class Running_Network(object):
             output_scores = self.model(char_embeding)
         loss = criterion(output_scores, labels)
 
-
         if not evaluate:
             loss.backward()
             model_optimizer.step()
@@ -197,7 +195,6 @@ class Running_Network(object):
                     x_temp[index][index_char] = 1.0
                 else:
                     pass
-                    # print(char)
             x_tensor.append(x_temp.unsqueeze(0))
         x_tensor = torch.cat(x_tensor, dim=0)
         return x_tensor
@@ -212,5 +209,3 @@ class Running_Network(object):
                 sentence.append(word)
             senteces.append(sentence)
         return senteces
-
-

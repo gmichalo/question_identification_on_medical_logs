@@ -13,8 +13,8 @@ class Network_Iterations(object):
     def __init__(self, print_flag, data_name, model, x_train, y_train,
                  batch_size, num_iters,
                  learning_rate, x_val=[], y_val=[], x_test=[], y_test=[], class_names=[1, 2, 3], validation_score=None,
-                 weight_class=[1, 1, 1], weight_decay=0, save_path="neural_network/model.pt", class_number=3 ):
-
+                 weight_class=[1, 1, 1], weight_decay=0, save_path="neural_network/model.pt", class_number=3,
+                 print_flag_probab=False):
 
         self.use_cuda = torch.cuda.is_available()
         self.data_name = data_name
@@ -26,10 +26,10 @@ class Network_Iterations(object):
         self.print_flag = print_flag
         self.class_names = class_names
         self.class_number = class_number
+        self.print_flag_proba = print_flag_probab
 
         # This criterion combines nn.LogSoftmax() and nn.NLLLoss() in one single class. no need for softmax in the model
         self.criterion = nn.CrossEntropyLoss(weight=torch.FloatTensor(weight_class))
-
 
         ''' Lists that will contain data in the form of tensors. '''
         # Training data.
@@ -122,6 +122,16 @@ class Network_Iterations(object):
             loss, scores, labels = self.model_train.evaluation(input_variables, class_id, self.criterion, evaluate=True)
             scores_final.extend(scores)
             y_pred.extend(torch.max(self.softmax(scores), 1)[1].data.numpy())
+
+            if self.print_flag_proba:
+                sentences = self.number_to_sentence(input_variables, voc)
+                for index in range(0, len(sentences)):
+                    probabilities = ""
+                    for i in range(0, self.class_number):
+                        probabilities = probabilities + " " + str(round(float(self.softmax(scores)[index][i].data), 3))
+                    print("sentence:" + " ".join(
+                        sentences[index]) + " probabilities: " + probabilities + " label class:" + str(
+                        labels[index].item()))
 
             y_true.extend(labels.data.numpy())
             total_loss += loss

@@ -27,10 +27,11 @@ if __name__ == "__main__":
 
     parser.add_argument("-fn", "--data_final_name", type=str, help="result name.", default="final_twiter")
 
+
     parser.add_argument("-dn", "--data_name", type=str, help="Dataset name.", default="question")
 
-
     parser.add_argument("-df", "--data_file", type=str, help="Path to dataset.", default="dataset_input/twitter_question/twitter_wordnet.csv")
+
 
     parser.add_argument("-med", "--medical_data", type=int,
                         help="0 not use semantic knowledge, 1 use concept in word vector, 2 additional channel for semantic concept ",
@@ -54,7 +55,6 @@ if __name__ == "__main__":
     parser.add_argument("-em_flag_med", "--embedding_flag_medical", type=int,
                         help="  1 use google embedding, 2 use mimic dataset for semantic, 3 random start",
                         default=2)
-
 
     parser.add_argument("-cn", "--class_number", type=int, help="Number of class", default=2)
 
@@ -89,12 +89,16 @@ if __name__ == "__main__":
     parser.add_argument("-tr_e_med", "--training_embedding_med", type=bool,
                         help="If we will continue the  training of  semantic embedding.", default=False)
 
-    parser.add_argument("-wordnet", "--wordnet", type=bool, help="whether we are using wordnet for semantic features", default=True)
+    parser.add_argument("-wordnet", "--wordnet", type=bool, help="whether we are using wordnet for semantic features",
+                        default=True)
 
     parser.add_argument("-opt", "--optim", type=str,
                         help="optimization", default="adam")
 
     parser.add_argument("-pr", "--printing_loss", type=bool, help="whether we print the training loss in each epoch ",
+                        default=False)
+    parser.add_argument("-prb", "--print_flag_probab", type=bool,
+                        help="whether we print the probabilities for each prediction ",
                         default=False)
 
     parser.add_argument("-sp", "--save_path", type=str, help="path where the model will be saved",
@@ -227,7 +231,7 @@ if __name__ == "__main__":
         elif args.model_name == "SeqCNN":
             model = Seq_CNN(args, args.class_number, args.data_name, embedding.embedding_matrix)
         elif args.model_name == "CHAR_CNN":
-            model = CHARCNN(args,args.class_number, data.max_sentence_lenght, input_channel=len(data.alphabet),
+            model = CHARCNN(args, args.class_number, data.max_sentence_lenght, input_channel=len(data.alphabet),
                             output_channel=args.feature_maps,
                             dropout=args.dropout, linear_size=args.intermidiate)
 
@@ -253,7 +257,7 @@ if __name__ == "__main__":
                                                x_test=data.x_test, y_test=data.y_test,
                                                weight_class=data.final_weights, class_names=class_numbers,
                                                weight_decay=args.weight_decay, class_number=args.class_number,
-                                               save_path=args.save_path)
+                                               save_path=args.save_path, print_flag_probab= args.print_flag_probab)
         network_iteration.train_iters(args)
         end = time.time()
         run_end = end - start

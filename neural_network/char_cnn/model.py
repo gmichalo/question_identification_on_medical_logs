@@ -40,7 +40,7 @@ class CHARCNN(nn.Module):
             nn.ReLU(),
             nn.MaxPool1d(kernel_size=args.pool_size)
         )
-        # l6= (l0−96)/27
+
         temp = - args.filter_sizes[0] + 1 - args.pool_size * (args.filter_sizes[0] -1) -(args.pool_size*args.pool_size*4*(args.filter_sizes[1]-1))
         linear_size_temp = int((max_sentence + temp) / (args.pool_size * args.pool_size * args.pool_size)) * output_channel
         self.fc1 = nn.Sequential(

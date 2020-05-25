@@ -64,22 +64,6 @@ def write_csv(path_results, accuracy_dictionary):
 
             writer.writerow([str(key) + "_" + str(key_temp), string_temp, "(average and  sd the last)"])
     a_file.close()
-    write_summary(path_results, accuracy_dictionary)
-
-
-def write_summary(path_results, accuracy_dictionary, summary_path="dataset_output/results/summary.csv"):
-    a_file = open(summary_path, "a+")
-    writer = csv.writer(a_file)
-    average = 0
-    temp = [float(i) for i in accuracy_dictionary["accuracy"]["result"]]
-    ds = statistics.stdev(temp)
-    for i in accuracy_dictionary["accuracy"]["result"]:
-        average = average + float(i)
-    average = average / len(accuracy_dictionary["accuracy"]["result"])
-
-    final_list = [path_results.split("results_")[1].split(".csv")[0], round(average, 4), round(ds, 4)]
-    writer.writerow(final_list)
-    a_file.close()
 
 
 def write_param(path_results, parameters):
