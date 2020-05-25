@@ -33,8 +33,8 @@ class Running_Network(object):
         get the number of parameters of the model
         :return:
         """
-        pytorch_total_params = sum(p.numel() for p in self.model.parameters())
-        # pytorch_total_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad) #if we want only the trainable parameters
+        #pytorch_total_params = sum(p.numel() for p in self.model.parameters())
+        pytorch_total_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad) #if we want only the trainable parameters
         return str(pytorch_total_params)
 
     def train(self, input_sequences, labels, criterion, model_optimizer=None, evaluate=False, nb_digits=4):
