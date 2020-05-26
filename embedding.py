@@ -4,7 +4,7 @@ import math
 import torch
 
 
-class Create_Embedding(object):
+class Create_Embedding:
 
     def __init__(self, file_path=None, embd_file_mimic=None, word2index=None, custom=0,
                  final_list=None, one_hot_pos=True, one_hot_medical=True, custom_medical=0, upos=False, umed=False,

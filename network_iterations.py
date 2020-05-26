@@ -9,7 +9,7 @@ from sklearn.metrics import f1_score
 from tqdm import tqdm
 
 
-class Network_Iterations(object):
+class Network_Iterations:
     def __init__(self, print_flag, data_name, model, x_train, y_train,
                  batch_size, num_iters,
                  learning_rate, x_val=[], y_val=[], x_test=[], y_test=[], class_names=[1, 2, 3], validation_score=None,

@@ -237,9 +237,7 @@ if __name__ == "__main__":
 
         if use_cuda: model = model.cuda()
 
-        if use_cuda: model = model.cuda()
-
-        if use_cuda: model = model.cuda()
+ 
 
         print("Training Network.")
         running_network = Running_Network(model, feature_index=data.feature_index, pos_index=data.pos_index,

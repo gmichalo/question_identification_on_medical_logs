@@ -3,7 +3,7 @@ import torch
 import torch.nn.utils.rnn as rnn
 
 
-class Running_Network(object):
+class Running_Network:
     def __init__(self, model, feature_index=0, pos_index=0, med_index=0, cluster_index=0, upos=False, umed=False,
                  uad=False, qk=False, class_number=3,
                  save_path="neural_network/model.pt", alphabet=None, max_sentence=None, voc=None):
@@ -33,8 +33,8 @@ class Running_Network(object):
         get the number of parameters of the model
         :return:
         """
-        pytorch_total_params = sum(p.numel() for p in self.model.parameters())
-        # pytorch_total_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad) #if we want only the trainable parameters
+        #pytorch_total_params = sum(p.numel() for p in self.model.parameters())
+        pytorch_total_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad) #if we want only the trainable parameters
         return str(pytorch_total_params)
 
     def train(self, input_sequences, labels, criterion, model_optimizer=None, evaluate=False, nb_digits=4):

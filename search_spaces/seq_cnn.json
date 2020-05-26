@@ -17,7 +17,7 @@
     },
     "filter_sizes": {
         "sampling strategy": "choice",
-        "choice": [[2], [3],[4],[6]]
+        "choice": [[2], [3],[4]]
     },
 
 

@@ -14,7 +14,7 @@ import numpy as np
 from tqdm import tqdm
 
 
-class Read_Data(object):
+class Read_Data:
     def __init__(self, column_names, data_name, data_file, train_ratio=0.8, test_val_ratio=0.5,
                  med_flag=2,
                  weight_flag=0,
