@@ -59,7 +59,7 @@ wget -c "https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative3
 
 Unfortunately, we cannot provide the embeddings of the MIMIC III dataset as training course is mandatory in order to access the particular dataset but the code can be still executed by only using the Google embeddings.
 
-However, we provide the code for the creation of the mimic embeeding in the [file](https://github.com/gmichalo/question_identificaton/blob/master/embedding_input/mimic_embedding/mimic.py) which will require the NOTEEVENTS.csv from the MIMIC III dataset
+However, we provide the code for the creation of the mimic embeeding in the [file](https://github.com/gmichalo/question_identification_on_medical_logs/blob/master/embedding_input/mimic_embedding/mimic.py) which will require the NOTEEVENTS.csv from the MIMIC III dataset
 
 ### Extracting questions and  creation of   features of the deep neural network models
 
