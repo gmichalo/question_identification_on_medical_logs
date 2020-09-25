@@ -14,9 +14,7 @@ class create_mimic_embedding:
         df_notes = pd.read_csv(self.file_name)
         for row in tqdm(df_notes.iterrows()):
             text = row[1]["TEXT"]
-            text = text.replace("[**", " ")
-            text = text.replace("**]", " ")
-            text = text.replace("\n", " ")
+            text = re.sub('\n+', '\n', text)
             text = re.sub(' +', ' ', text)
 
             notes_list.append(text.split(" "))
