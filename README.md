@@ -1,6 +1,6 @@
 #  Where's the Question? A Multi-channel Deep Convolutional Neural Network for Question Identification in Textual Data
 
-(accepted paper in The 3rd Clinical Natural Language Processing Workshop)
+(accepted paper in [The 3rd Clinical Natural Language Processing Workshop](https://clinical-nlp.github.io/2020/))
 
 ## General info
 This is the code that was used of the paper : Where's the Question? A Multi-channel Deep Convolutional Neural Network for Question Identification in Textual Data where we created a multi-channel convolutional neural network for the seperation of sentences to question, not-questions and *c-questions* questions referring to an issue mentioned in a nearby sentence (e.g.,  can you clarify this?)
